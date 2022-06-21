@@ -29,4 +29,4 @@ Please contact us if you have any **Anemoi** implementations to share.
 
 
 ## License
-todo
+This repository is distributed under the terms of the MIT License.
