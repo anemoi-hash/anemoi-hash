@@ -3,6 +3,7 @@
 This repository contains a first implementation in sage of the **Anemoi** family of hash functions.
 **Anemoi** is a family of Arithmetization Oriented Hash Functions that operates over prime and binary fields.
 
+Our paper on Anemoi can be found on ePrint: https://eprint.iacr.org/2022/840.
 
 ## Contents
 The sage script ```anemoi.sage``` contains various routines to evaluate **Anemoi** (including **AnemoiJive** and **AnemoiSponge**) but also to generate the corresponding systems of equations.
