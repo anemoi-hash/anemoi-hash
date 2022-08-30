@@ -106,10 +106,11 @@ def lfsr(x_input, b):
         x = x[1:] + [t]
     return x
 
-def circulant_matrix(l):
-    for v in itertools.combinations_with_replacement(range(0,2*l), l):
-        if is_mds(matrix.circulant(list(v))):
-            return(matrix.circulant(list(v)))
+def circulant_matrix(field, l):
+    for v in itertools.combinations_with_replacement(range(0,l+1), l):
+        mat = matrix.circulant(list(v)).change_ring(field)
+        if is_mds(mat):
+            return(mat)
 
 def get_mds(field, l):
     a = field.multiplicative_generator()
@@ -130,10 +131,10 @@ def get_mds(field, l):
                 elif l == 4:
                     mat.append(M_4(x_i, b))
             mat = Matrix(field, l, l, mat)
+            if is_mds(mat):
+                return mat
         else:
-            mat = circulant_matrix(l)
-        if is_mds(mat):
-            return mat
+            return circulant_matrix(field, l)
 
 # AnemoiPermutation class
         
@@ -142,6 +143,7 @@ class AnemoiPermutation:
                  q=None,
                  alpha=None,
                  n_rounds=None,
+                 mat=None,
                  n_cols=1,
                  security_level=128):
         if q == None:
@@ -212,10 +214,19 @@ class AnemoiPermutation:
                 self.C[r].append(self.g * (pi_0_r)**2 + pow_alpha)
                 self.D[r].append(self.g * (pi_1_i)**2 + pow_alpha + self.delta)
         if self.n_cols == 1:
-            self.mat = get_mds(self.F, 2)  # a linear layer is needed to mix the column
-            print(self.mat.str())
+            if mat == None:
+                self.mat = get_mds(self.F, 2)  # a linear layer is needed to mix the column
+            else:
+                assert(mat.ncols() == 2)
+                assert(mat.nrows() == 2)
+                assert(is_mds(mat))
+                self.mat = mat
         else:
-            self.mat = get_mds(self.F, self.n_cols)
+            if mat == None:
+                self.mat = get_mds(self.F, self.n_cols)
+            else:
+                assert(is_mds(mat))
+                self.mat = mat
 
 
     def __str__(self):
