@@ -5,6 +5,8 @@ from sage.all import *
 import hashlib
 import itertools
 
+from constants import *
+
 COST_ALPHA = {
     3   : 2, 5   : 3, 7   : 4, 9   : 4,
     11  : 5, 13  : 5, 15  : 5, 17  : 5,
@@ -602,30 +604,189 @@ def generate_test_vectors_sponge(P, r, h, n):
 
 
 if __name__ == "__main__":
-    # check_polynomial_verification(
-    #     n_tests=10,
-    #     q=509,
-    #     alpha=3,
-    #     n_rounds=5,
-    #     n_cols=3)
 
-    # test_jive(
-    #     n_tests=10,
-    #     q=509,
-    #     alpha=3,
-    #     n_rounds=5,
-    #     n_cols=2,
-    #     b=4)
-    
+    # 128-bit security level instantiations
 
-    test_sponge(
-        n_tests=10,
-        q=0x1A0111EA397FE69A4B1BA7B6434BACD764774B84F38512BF6730D2A0F6B0F6241EABFFFEB153FFFFB9FEFFFFFFFFAAAB, # BLS12-381 prime
-        alpha=5,
-        n_cols=2,
-        b=4,
+    A_BLS_12_381_BASEFIELD_1_COL_128_BITS = AnemoiPermutation(
+        q=BLS12_381_BASEFIELD,
+        mat=Matrix(GF(BLS12_381_BASEFIELD), 2, 2, [[1, 2], [2, 5]]),
+        n_cols=1,
+        security_level=128
+    )
+    A_BLS_12_381_BASEFIELD_4_COL_128_BITS =AnemoiPermutation(
+        q=BLS12_381_BASEFIELD,
+        mat=Matrix(GF(BLS12_381_BASEFIELD), 4, 4, [[1, 4, 4, 3], [3, 6, 4, 5], [2, 3, 1, 2], [2, 5, 3, 3]]),
+        n_cols=4,
+        security_level=128
+    )
+    A_BLS_12_381_BASEFIELD_6_COL_128_BITS =AnemoiPermutation(
+        q=BLS12_381_BASEFIELD,
+        mat=matrix.circulant([1, 1, 3, 4, 5, 6]),
+        n_cols=6,
+        security_level=128)
+
+    A_JUBJUB_BASEFIELD_1_COL_128_BITS =AnemoiPermutation(
+        q=BLS12_381_SCALARFIELD,
+        mat=Matrix(GF(BLS12_381_SCALARFIELD), 2, 2, [[1, 7], [7, 50]]),
+        n_cols=1,
+        security_level=128
+    )
+    A_JUBJUB_BASEFIELD_4_COL_128_BITS =AnemoiPermutation(
+        q=BLS12_381_SCALARFIELD,
+        mat=Matrix(GF(BLS12_381_SCALARFIELD), 4, 4, [[1, 49, 49, 8], [8, 56, 49, 15], [7, 8, 1, 7], [7, 15, 8, 8]]),
+        n_cols=4,
+        security_level=128
+    )
+    A_JUBJUB_BASEFIELD_6_COL_128_BITS =AnemoiPermutation(
+        q=BLS12_381_SCALARFIELD,
+        mat=matrix.circulant([1, 1, 3, 4, 5, 6]),
+        n_cols=6,
+        security_level=128)
+
+    A_BLS_12_377_BASEFIELD_1_COL_128_BITS =AnemoiPermutation(
+        q=BLS12_377_BASEFIELD,
+        mat=Matrix(GF(BLS12_377_BASEFIELD), 2, 2, [[1, 15], [15, 226]]),
+        n_cols=1,
+        security_level=128
+    )
+    A_BLS_12_377_BASEFIELD_4_COL_128_BITS =AnemoiPermutation(
+        q=BLS12_377_BASEFIELD,
+        mat=Matrix(GF(BLS12_377_BASEFIELD), 4, 4, [[1, 225, 225, 16], [16, 240, 225, 31], [15, 16, 1, 15], [15, 31, 16, 16]]),
+        n_cols=4,
+        security_level=128
+    )
+    A_BLS_12_377_BASEFIELD_6_COL_128_BITS =AnemoiPermutation(
+        q=BLS12_377_BASEFIELD,
+        mat=matrix.circulant([1, 1, 3, 4, 5, 6]),
+        n_cols=6,
+        security_level=128)
+
+    A_BN_254_BASEFIELD_1_COL_128_BITS =AnemoiPermutation(
+        q=BN_254_BASEFIELD,
+        mat=Matrix(GF(BN_254_BASEFIELD), 2, 2, [[1, 3], [3, 10]]),
+        n_cols=1,
+        security_level=128
+    )
+    A_BN_254_BASEFIELD_4_COL_128_BITS =AnemoiPermutation(
+        q=BN_254_BASEFIELD,
+        mat=Matrix(GF(BN_254_BASEFIELD), 4, 4, [[1, 9, 9, 4], [4, 12, 9, 7], [3, 4, 1, 3], [3, 7, 4, 4]]),
+        n_cols=4,
+        security_level=128
+    )
+    A_BN_254_BASEFIELD_6_COL_128_BITS =AnemoiPermutation(
+        q=BN_254_BASEFIELD,
+        mat=matrix.circulant([1, 1, 3, 4, 5, 6]),
+        n_cols=6,
+        security_level=128)
+
+    A_GOLDILOCKS_64_FIELD_1_COL_128_BITS =AnemoiPermutation(
+        q=GOLDILOCKS_64_FIELD,
+        mat=matrix.circulant([1, 2]),
+        n_cols=1,
+        security_level=128
+    )
+    A_GOLDILOCKS_64_FIELD_4_COL_128_BITS =AnemoiPermutation(
+        q=GOLDILOCKS_64_FIELD,
+        mat=matrix.circulant([1, 1, 2, 3]),
+        n_cols=4,
+        security_level=128
+    )
+    A_GOLDILOCKS_64_FIELD_6_COL_128_BITS =AnemoiPermutation(
+        q=GOLDILOCKS_64_FIELD,
+        mat=matrix.circulant([1, 1, 3, 4, 5, 6]),
+        n_cols=6,
+        security_level=128)
+
+
+    # 256-bit security level instantiations
+
+    A_BLS_12_381_BASEFIELD_1_COL_256_BITS =AnemoiPermutation(
+        q=BLS12_381_BASEFIELD,
+        mat=Matrix(GF(BLS12_381_BASEFIELD), 2, 2, [[1, 2], [2, 5]]),
+        n_cols=1,
+        security_level=256
+    )
+    A_BLS_12_381_BASEFIELD_4_COL_256_BITS =AnemoiPermutation(
+        q=BLS12_381_BASEFIELD,
+        mat=Matrix(GF(BLS12_381_BASEFIELD), 4, 4, [[1, 4, 4, 3], [3, 6, 4, 5], [2, 3, 1, 2], [2, 5, 3, 3]]),
+        n_cols=4,
+        security_level=256
+    )
+    A_BLS_12_381_BASEFIELD_6_COL_256_BITS =AnemoiPermutation(
+        q=BLS12_381_BASEFIELD,
+        mat=matrix.circulant([1, 1, 3, 4, 5, 6]),
+        n_cols=6,
         security_level=256)
-    
 
-    # for l in range(1, 5):
-    #     print([get_n_rounds(256, l, alpha) for alpha in [3, 5, 7, 11, 13, 17]])
+    A_JUBJUB_BASEFIELD_1_COL_256_BITS =AnemoiPermutation(
+        q=BLS12_381_SCALARFIELD,
+        mat=Matrix(GF(BLS12_381_SCALARFIELD), 2, 2, [[1, 7], [7, 50]]),
+        n_cols=1,
+        security_level=256
+    )
+    A_JUBJUB_BASEFIELD_4_COL_256_BITS =AnemoiPermutation(
+        q=BLS12_381_SCALARFIELD,
+        mat=Matrix(GF(BLS12_381_SCALARFIELD), 4, 4, [[1, 49, 49, 8], [8, 56, 49, 15], [7, 8, 1, 7], [7, 15, 8, 8]]),
+        n_cols=4,
+        security_level=256
+    )
+    A_JUBJUB_BASEFIELD_6_COL_256_BITS =AnemoiPermutation(
+        q=BLS12_381_SCALARFIELD,
+        mat=matrix.circulant([1, 1, 3, 4, 5, 6]),
+        n_cols=6,
+        security_level=256)
+
+    A_BLS_12_377_BASEFIELD_1_COL_256_BITS =AnemoiPermutation(
+        q=BLS12_377_BASEFIELD,
+        mat=Matrix(GF(BLS12_377_BASEFIELD), 2, 2, [[1, 15], [15, 226]]),
+        n_cols=1,
+        security_level=256
+    )
+    A_BLS_12_377_BASEFIELD_4_COL_256_BITS =AnemoiPermutation(
+        q=BLS12_377_BASEFIELD,
+        mat=Matrix(GF(BLS12_377_BASEFIELD), 4, 4, [[1, 225, 225, 16], [16, 240, 225, 31], [15, 16, 1, 15], [15, 31, 16, 16]]),
+        n_cols=4,
+        security_level=256
+    )
+    A_BLS_12_377_BASEFIELD_6_COL_256_BITS =AnemoiPermutation(
+        q=BLS12_377_BASEFIELD,
+        mat=matrix.circulant([1, 1, 3, 4, 5, 6]),
+        n_cols=6,
+        security_level=256)
+
+    A_BN_254_BASEFIELD_1_COL_256_BITS =AnemoiPermutation(
+        q=BN_254_BASEFIELD,
+        mat=Matrix(GF(BN_254_BASEFIELD), 2, 2, [[1, 3], [3, 10]]),
+        n_cols=1,
+        security_level=256
+    )
+    A_BN_254_BASEFIELD_4_COL_256_BITS =AnemoiPermutation(
+        q=BN_254_BASEFIELD,
+        mat=Matrix(GF(BN_254_BASEFIELD), 4, 4, [[1, 9, 9, 4], [4, 12, 9, 7], [3, 4, 1, 3], [3, 7, 4, 4]]),
+        n_cols=4,
+        security_level=256
+    )
+    A_BN_254_BASEFIELD_6_COL_256_BITS =AnemoiPermutation(
+        q=BN_254_BASEFIELD,
+        mat=matrix.circulant([1, 1, 3, 4, 5, 6]),
+        n_cols=6,
+        security_level=256)
+
+    A_GOLDILOCKS_64_FIELD_1_COL_256_BITS =AnemoiPermutation(
+        q=GOLDILOCKS_64_FIELD,
+        mat=matrix.circulant([1, 2]),
+        n_cols=1,
+        security_level=256
+    )
+    A_GOLDILOCKS_64_FIELD_4_COL_256_BITS =AnemoiPermutation(
+        q=GOLDILOCKS_64_FIELD,
+        mat=matrix.circulant([1, 1, 2, 3]),
+        n_cols=4,
+        security_level=256
+    )
+    A_GOLDILOCKS_64_FIELD_6_COL_256_BITS =AnemoiPermutation(
+        q=GOLDILOCKS_64_FIELD,
+        mat=matrix.circulant([1, 1, 3, 4, 5, 6]),
+        n_cols=6,
+        security_level=256
+    )
