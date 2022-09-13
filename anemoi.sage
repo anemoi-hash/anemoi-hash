@@ -403,6 +403,8 @@ def sponge_hash(P, r, h, _x):
     x = _x[:]
     if P.input_size() <= r:
         raise Exception("rate must be strictly smaller than state size!")
+    if h * 2 * P.F.cardinality().nbits() < P.security_level:
+        raise Exception(f"digest size is too small for the targeted security level!")
     # message padding (and domain separator computation)
     if len(x) % r == 0 and len(x) != 0:
         sigma = 1
