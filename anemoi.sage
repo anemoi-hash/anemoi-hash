@@ -2,6 +2,7 @@
 # -*- mode: python ; -*-
 
 from sage.all import *
+import hashlib
 import itertools
 
 COST_ALPHA = {
@@ -56,10 +57,7 @@ def get_n_rounds(s, l, alpha):
             2*l*r
         )**2
     r += l+1 # security margin
-    if r > 10:
-        return r
-    else:
-        return 10
+    return max(10, r)
 
 
 # Linear layer generation
@@ -546,7 +544,45 @@ def test_sponge(n_tests=10,
             x,
             sponge_hash(A, 2, 2, x)
         ))
-        
+
+
+def generate_test_vectors_sponge(P, r, h, n):
+    """
+    Outputs `n` deterministic test vectors for the provided AnemoiPermutation
+    `P` with rate `r` and digest size `h`.
+    """
+    assert n >= 4, "The number of test vectors should be greater than 4."
+    m = hashlib.sha512(str(P).encode())
+    m.update("Sponge test vectors".encode())
+    m.update(f"R={r}".encode())
+    m.update(f"H={h}".encode())
+    seed = Integer(m.digest().hex(), 16)
+
+    inputs = []
+    outputs = []
+    inputs.append([P.F(0) for _ in range(P.input_size())])
+    inputs.append([P.F(1) for _ in range(P.input_size())])
+    inputs.append([P.F(0) for _ in range(P.n_cols)] + [P.F(1) for _ in range(P.n_cols)])
+    inputs.append([P.F(1) for _ in range(P.n_cols)] + [P.F(0) for _ in range(P.n_cols)])
+    for i in range(n - 4):
+        input = []
+        for _ in range(i+1):
+            input.append(P.to_field(seed))
+            m.update(str(seed).encode())
+            seed = Integer(m.digest().hex(), 16)
+        inputs.append(input)
+    for input in inputs:
+        outputs.append(sponge_hash(P, r, h, input))
+
+    print(
+        "Test vectors for Anemoi instance over F_{:d}, n_rounds={:d}, n_cols={:d}, s={:d}".format(
+        P.q,
+        P.n_rounds,
+        P.n_cols,
+        P.security_level)
+    )
+    return (inputs, outputs)
+
 
 if __name__ == "__main__":
     # check_polynomial_verification(
