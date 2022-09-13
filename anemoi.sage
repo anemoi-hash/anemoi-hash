@@ -252,7 +252,7 @@ class AnemoiPermutation:
             return [r[0]], [r[1]]
         else:
             x = self.mat*vector(x)
-            y = self.mat*vector(y[:-1] + [y[0]])
+            y = self.mat*vector(y[1:] + [y[0]])
             return list(x), list(y)
         
 
