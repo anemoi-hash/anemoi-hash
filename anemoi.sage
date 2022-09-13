@@ -409,7 +409,9 @@ def sponge_hash(P, r, h, _x):
     else:
         sigma = 0
         x += [1]
-        x += (len(x) % r)*[0]
+        # if x is still not long enough, append 0s
+        if len(x) % r != 0:
+            x += (r - (len(x) % r))*[0]
     padded_x = [[x[pos+i] for i in range(0, r)]
                 for pos in range(0, len(x), r)]
     # absorption phase
