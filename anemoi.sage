@@ -564,6 +564,42 @@ def test_sponge(n_tests=10,
             sponge_hash(A, 2, 2, x)
         ))
 
+def generate_test_vectors_jive(P, b, n):
+    """
+    Outputs `n` deterministic test vectors for the provided AnemoiPermutation
+    `P` with compression factor `b`.
+    """
+    assert n >= 4, "The number of test vectors should be greater than 4."
+    m = hashlib.sha512(str(P).encode())
+    m.update("Jive test vectors".encode())
+    m.update(f"B={b}".encode())
+    seed = Integer(m.digest().hex(), 16)
+
+    inputs = []
+    outputs = []
+    inputs.append([P.F(0) for _ in range(P.input_size())])
+    inputs.append([P.F(1) for _ in range(P.input_size())])
+    inputs.append([P.F(0) for _ in range(P.n_cols)] + [P.F(1) for _ in range(P.n_cols)])
+    inputs.append([P.F(1) for _ in range(P.n_cols)] + [P.F(0) for _ in range(P.n_cols)])
+    for i in range(n - 4):
+        input = []
+        for _ in range(P.input_size()):
+            input.append(P.to_field(seed))
+            m.update(str(seed).encode())
+            seed = Integer(m.digest().hex(), 16)
+        inputs.append(input)
+    for input in inputs:
+        outputs.append(jive(P, b, input))
+
+    print(
+        "Test vectors for Anemoi instance over F_{:d}, n_rounds={:d}, n_cols={:d}, s={:d}".format(
+        P.q,
+        P.n_rounds,
+        P.n_cols,
+        P.security_level)
+    )
+    return (inputs, outputs)
+
 
 def generate_test_vectors_sponge(P, r, h, n):
     """
@@ -600,6 +636,72 @@ def generate_test_vectors_sponge(P, r, h, n):
         P.n_cols,
         P.security_level)
     )
+    return (inputs, outputs)
+
+
+def generate_test_vectors_sbox(P, n):
+    """
+    Outputs `n` deterministic test vectors for the provided AnemoiPermutation
+    `P` with rate `r`, digest size `h` and.
+    """
+    assert n >= 4, "The number of test vectors should be greater than 4."
+    m = hashlib.sha512(str(P).encode())
+    m.update("S-Box test vectors".encode())
+    seed = Integer(m.digest().hex(), 16)
+
+    inputs = []
+    outputs = []
+    inputs.append([P.F(0) for _ in range(P.input_size())])
+    inputs.append([P.F(1) for _ in range(P.input_size())])
+    inputs.append([P.F(0) for _ in range(P.n_cols)] + [P.F(1) for _ in range(P.n_cols)])
+    inputs.append([P.F(1) for _ in range(P.n_cols)] + [P.F(0) for _ in range(P.n_cols)])
+
+    for _ in range(n - 4):
+        input = []
+        for _ in range(P.input_size()):
+            input.append(P.to_field(seed))
+            m.update(str(seed).encode())
+            seed = Integer(m.digest().hex(), 16)
+        inputs.append(input)
+    for input in inputs:
+        x = [0 for i in range(P.n_cols)]
+        y = [0 for i in range(P.n_cols)]
+        for i in range(P.n_cols):
+            x[i], y[i] = P.evaluate_sbox(input[i], input[P.n_cols + i])
+        x.extend(y)
+        outputs.append(x)
+
+    return (inputs, outputs)
+
+
+def generate_test_vectors_mds(P, n):
+    """
+    Outputs `n` deterministic test vectors for the provided AnemoiPermutation
+    `P` with rate `r`, digest size `h` and.
+    """
+    assert n >= 4, "The number of test vectors should be greater than 4."
+    m = hashlib.sha512(str(P).encode())
+    m.update("MDS test vectors".encode())
+    seed = Integer(m.digest().hex(), 16)
+
+    inputs = []
+    outputs = []
+    inputs.append([P.F(0) for _ in range(P.input_size())])
+    inputs.append([P.F(1) for _ in range(P.input_size())])
+    inputs.append([P.F(0) for _ in range(P.n_cols)] + [P.F(1) for _ in range(P.n_cols)])
+    inputs.append([P.F(1) for _ in range(P.n_cols)] + [P.F(0) for _ in range(P.n_cols)])
+    for _ in range(n - 4):
+        input = []
+        for _ in range(P.input_size()):
+            input.append(P.to_field(seed))
+            m.update(str(seed).encode())
+            seed = Integer(m.digest().hex(), 16)
+        inputs.append(input)
+    for input in inputs:
+        x,y = P.linear_layer(input[0:P.n_cols], input[P.n_cols:])
+        x.extend(y)
+        outputs.append(x)
+
     return (inputs, outputs)
 
 
