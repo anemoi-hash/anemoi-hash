@@ -382,10 +382,12 @@ def jive(P, b, _x):
         raise Exception("b must be at least equal to 2")
     if P.input_size() % b != 0:
         raise Exception("b must divide the input size!")
+    c = P.input_size()/b # length of the compressed output
+    if c * P.F.cardinality().nbits() < 2 * P.security_level:
+        raise Exception(f"digest size is too small for the targeted security level!")
     x = _x[:]
     u = P(x)
     compressed = []
-    c = P.input_size()/b # length of the compressed output
     for i in range(0, c):
         compressed.append(sum(x[i+c*j] + u[i+c*j]
                               for j in range(0, b)))
@@ -401,7 +403,7 @@ def sponge_hash(P, r, h, _x):
     x = _x[:]
     if P.input_size() <= r:
         raise Exception("rate must be strictly smaller than state size!")
-    if h * 2 * P.F.cardinality().nbits() < P.security_level:
+    if h * P.F.cardinality().nbits() < 2 * P.security_level:
         raise Exception(f"digest size is too small for the targeted security level!")
     # message padding (and domain separator computation)
     if len(x) % r == 0 and len(x) != 0:
