@@ -140,7 +140,7 @@ def get_mds(field, l):
             return circulant_mds_matrix(field, l)
 
 # AnemoiPermutation class
-        
+
 class AnemoiPermutation:
     def __init__(self,
                  q=None,
@@ -158,10 +158,10 @@ class AnemoiPermutation:
                                         # characteristic is 2**self
         self.n_cols = n_cols # the number of parallel S-boxes in each round
         self.security_level = security_level
-        
+
         # initializing the other variables in the state:
         # - q     is the characteristic of the field
-        # - g     is a generator of the multiplicative subgroup 
+        # - g     is a generator of the multiplicative subgroup
         # - alpha is the main exponent (in the center of the Flystel)
         # - beta  is the coefficient in the quadratic subfunction
         # - gamma is the constant in the second quadratic subfunction
@@ -191,7 +191,7 @@ class AnemoiPermutation:
         self.beta = self.g
         self.delta = self.g**(-1)
         self.alpha_inv = inverse_mod(self.alpha, self.q-1)
-                   
+
         # total number of rounds
         if n_rounds != None:
             self.n_rounds = n_rounds
@@ -199,7 +199,7 @@ class AnemoiPermutation:
             self.n_rounds = get_n_rounds(self.security_level,
                                          self.n_cols,
                                          self.alpha)
-                   
+
         # Choosing constants: self.C and self.D are built from the
         # digits of pi using an open butterfly
         self.C = []
@@ -241,10 +241,10 @@ class AnemoiPermutation:
             [[self.from_field(x) for x in self.D[r]] for r in range(0, self.n_rounds)],
         )
         return result
-    
-        
+
+
     # !SECTION! Sub-components
-    
+
     def evaluate_sbox(self, _x, _y):
         """Applies an open Flystel to the full state. """
         x, y = _x, _y
@@ -252,7 +252,7 @@ class AnemoiPermutation:
         y -= x**self.alpha_inv
         x += self.beta*y**self.QUAD + self.delta
         return x, y
-    
+
     def linear_layer(self, _x, _y):
         x, y = _x[:], _y[:]
         if self.n_cols == 1:
@@ -262,7 +262,7 @@ class AnemoiPermutation:
             x = self.mat*vector(x)
             y = self.mat*vector(y[1:] + [y[0]])
             return list(x), list(y)
-        
+
 
     # !SECTION! Evaluation
 
@@ -274,7 +274,7 @@ class AnemoiPermutation:
         the input values, and since there is a last degenerate round
         consisting only in a linear layer.
 
-        """        
+        """
         x, y = _x[:], _y[:]
         result = [[x[:], y[:]]]
         for r in range(0, self.n_rounds):
@@ -293,8 +293,8 @@ class AnemoiPermutation:
 
     def input_size(self):
         return 2*self.n_cols
-    
-    
+
+
     def __call__(self, _x):
         if len(_x) != self.input_size():
             raise Exception("wrong input size!")
@@ -302,7 +302,7 @@ class AnemoiPermutation:
             x, y = _x[:self.n_cols], _x[self.n_cols:]
             u, v = self.eval_with_intermediate_values(x, y)[-1]
             return u + v # concatenation, not a sum
-    
+
 
     # !SECTION! Writing full system of equations
 
@@ -329,7 +329,7 @@ class AnemoiPermutation:
                 result["X"][r].append(pol_gens[self.n_cols*2*r + i])
                 result["Y"][r].append(pol_gens[self.n_cols*2*r + i + self.n_cols])
         return result
-        
+
 
     def verification_polynomials(self, pol_vars):
         """Returns the list of all the equations that all the intermediate
@@ -356,11 +356,11 @@ class AnemoiPermutation:
                 )
         return equations
 
-    
+
     def print_verification_polynomials(self):
         """Simply prints the equations modeling a full call to this
         AnemoiPermutation instance in a user (and computer) readable
-        format. 
+        format.
 
         The first lines contains a comma separated list of all the
         variables, and the second contains the field size. The
@@ -379,7 +379,7 @@ class AnemoiPermutation:
             print(f)
 
 
-            
+
 # !SECTION! Modes of operation
 
 
@@ -402,8 +402,8 @@ def jive(P, b, _x):
         compressed.append(sum(x[i+c*j] + u[i+c*j]
                               for j in range(0, b)))
     return compressed
-        
-        
+
+
 def sponge_hash(P, r, h, _x):
     """Uses Hirose's variant of the sponge construction to hash the
     message x using the permutation P with rate r, outputting a digest
@@ -448,7 +448,7 @@ def sponge_hash(P, r, h, _x):
             pos = 0
             internal_state = P(internal_state)
     return digest
-    
+
 
 # !SECTION! Tests
 
@@ -499,16 +499,16 @@ def check_polynomial_verification(n_tests=10, q=2**63, alpha=3, n_rounds=3, n_co
             polynomial_values = [eqs[r*2*A.n_cols + i].subs(assignment)
                                  for i in range(0, 2*A.n_cols)]
             print("round {:3d}: {}\n           {}".format(
-                r, 
+                r,
                 polynomial_values[0::2],
                 polynomial_values[1::2]
             ))
-    
 
-def test_jive(n_tests=10, 
-              q=2**63, alpha=3, 
-              n_rounds=None, 
-              n_cols=1, 
+
+def test_jive(n_tests=10,
+              q=2**63, alpha=3,
+              n_rounds=None,
+              n_cols=1,
               b=2,
               security_level=32):
     """Let `A` be and AnemoiPermutation instance with the parameters input
@@ -532,13 +532,13 @@ def test_jive(n_tests=10,
             b,
             jive(A, b, x + y)
         ))
-    
 
-def test_sponge(n_tests=10, 
-                q=2**63, 
-                alpha=3, 
-                n_rounds=None, 
-                n_cols=1, 
+
+def test_sponge(n_tests=10,
+                q=2**63,
+                alpha=3,
+                n_rounds=None,
+                n_cols=1,
                 b=2,
                 security_level=32):
     """Let `A` be an AnemoiPermutation instance with the parameters input
@@ -614,7 +614,7 @@ if __name__ == "__main__":
     #     n_rounds=5,
     #     n_cols=2,
     #     b=4)
-    
+
 
     test_sponge(
         n_tests=10,
@@ -623,7 +623,7 @@ if __name__ == "__main__":
         n_cols=2,
         b=4,
         security_level=256)
-    
+
 
     # for l in range(1, 5):
     #     print([get_n_rounds(256, l, alpha) for alpha in [3, 5, 7, 11, 13, 17]])
