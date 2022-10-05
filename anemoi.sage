@@ -106,6 +106,12 @@ def lfsr(x_input, b):
         x = x[1:] + [t]
     return x
 
+def circulant_mds_matrix(field, l):
+    for v in itertools.combinations_with_replacement(range(0,l+2), l):
+        mat = matrix.circulant(list(v)).change_ring(field)
+        if is_mds(mat):
+            return(mat)
+
 def get_mds(field, l):
     a = field.multiplicative_generator()
     b = field.one()
@@ -115,19 +121,23 @@ def get_mds(field, l):
         mat = []
         b = b*a
         t += 1
-        for i in range(0, l):
-            x_i = [field.one() * (j == i) for j in range(0, l)]
-            if l == 2:
-                mat.append(M_2(x_i, b))
-            elif l == 3:
-                mat.append(M_3(x_i, b))
-            elif l == 4:
-                mat.append(M_4(x_i, b))
-            else:
-                mat.append(lfsr(x_i, b))
-        mat = Matrix(field, l, l, mat)
-        if is_mds(mat):
-            return mat
+        if l <= 4:
+            for i in range(0, l):
+                x_i = [field.one() * (j == i) for j in range(0, l)]
+                if l == 2:
+                    mat.append(M_2(x_i, b))
+                elif l == 3:
+                    mat.append(M_3(x_i, b))
+                elif l == 4:
+                    mat.append(M_4(x_i, b))
+            mat = Matrix(field, l, l, mat)
+            if is_mds(mat):
+                return mat
+        # If l > 4, we default to a circulant matrix with small coefficients
+        # The matrix is identified by its first row, with coefficients
+        # lexicographically ordered.
+        else:
+            return circulant_mds_matrix(field, l)
 
 # AnemoiPermutation class
         
