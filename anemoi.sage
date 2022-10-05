@@ -605,7 +605,7 @@ if __name__ == "__main__":
 
     test_sponge(
         n_tests=10,
-        q=0x1A0111EA397FE69A4B1BA7B6434BACD764774B84F38512BF6730D2A0F6B0F6241EABFFFEB153FFFFB9FEFFFFFFFFAAAB, # BLS12-381 prime
+        q=0x73eda753299d7d483339d80809a1d80553bda402fffe5bfeffffffff00000001, # BLS12-381 scalar field prime
         alpha=5,
         n_cols=2,
         b=4,
