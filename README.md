@@ -28,6 +28,11 @@ The two functions ```jive``` and ```sponge_hash``` are routines to evaluate **An
 
 
 ## Third-party implementations
+Here are some Git repositories with **Anemoi** implementations:
+- Anemoi/Griffin/Rescue-Prime/Poseidon C implementation: https://gitlab.com/dannywillems/ocaml-bls12-381-hash
+- PlonK implementation of Anemoi/Griffin/Poseidon: https://gitlab.com/nomadic-labs/cryptography/privacy-team
+- Native Rust implementation of Anemoi/Rescue-Prime/Griffin over 64-bit field: https://github.com/toposware/hash/tree/griffin
+
 Please contact us if you have any **Anemoi** implementations to share.
 
 
