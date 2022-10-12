@@ -729,6 +729,16 @@ if __name__ == "__main__":
         n_cols=1,
         security_level=128
     )
+    A_BLS_12_381_BASEFIELD_2_COL_128_BITS = AnemoiPermutation(
+        q=BLS12_381_BASEFIELD,
+        n_cols=2,
+        security_level=128
+    )
+    A_BLS_12_381_BASEFIELD_3_COL_128_BITS = AnemoiPermutation(
+        q=BLS12_381_BASEFIELD,
+        n_cols=3,
+        security_level=128
+    )
     A_BLS_12_381_BASEFIELD_4_COL_128_BITS = AnemoiPermutation(
         q=BLS12_381_BASEFIELD,
         n_cols=4,
@@ -743,6 +753,16 @@ if __name__ == "__main__":
     A_JUBJUB_BASEFIELD_1_COL_128_BITS = AnemoiPermutation(
         q=BLS12_381_SCALARFIELD,
         n_cols=1,
+        security_level=128
+    )
+    A_JUBJUB_BASEFIELD_2_COL_128_BITS = AnemoiPermutation(
+        q=BLS12_381_SCALARFIELD,
+        n_cols=2,
+        security_level=128
+    )
+    A_JUBJUB_BASEFIELD_3_COL_128_BITS = AnemoiPermutation(
+        q=BLS12_381_SCALARFIELD,
+        n_cols=3,
         security_level=128
     )
     A_JUBJUB_BASEFIELD_4_COL_128_BITS = AnemoiPermutation(
@@ -761,6 +781,16 @@ if __name__ == "__main__":
         n_cols=1,
         security_level=128
     )
+    A_BLS_12_377_BASEFIELD_2_COL_128_BITS = AnemoiPermutation(
+        q=BLS12_377_BASEFIELD,
+        n_cols=2,
+        security_level=128
+    )
+    A_BLS_12_377_BASEFIELD_3_COL_128_BITS = AnemoiPermutation(
+        q=BLS12_377_BASEFIELD,
+        n_cols=3,
+        security_level=128
+    )
     A_BLS_12_377_BASEFIELD_4_COL_128_BITS = AnemoiPermutation(
         q=BLS12_377_BASEFIELD,
         n_cols=4,
@@ -775,6 +805,16 @@ if __name__ == "__main__":
     A_ED_ON_BLS_12_377_BASEFIELD_1_COL_128_BITS = AnemoiPermutation(
         q=BLS12_377_SCALARFIELD,
         n_cols=1,
+        security_level=128
+    )
+    A_ED_ON_BLS_12_377_BASEFIELD_2_COL_128_BITS = AnemoiPermutation(
+        q=BLS12_377_SCALARFIELD,
+        n_cols=2,
+        security_level=128
+    )
+    A_ED_ON_BLS_12_377_BASEFIELD_3_COL_128_BITS = AnemoiPermutation(
+        q=BLS12_377_SCALARFIELD,
+        n_cols=3,
         security_level=128
     )
     A_ED_ON_BLS_12_377_BASEFIELD_4_COL_128_BITS = AnemoiPermutation(
@@ -793,6 +833,16 @@ if __name__ == "__main__":
         n_cols=1,
         security_level=128
     )
+    A_BN_254_BASEFIELD_2_COL_128_BITS = AnemoiPermutation(
+        q=BN_254_BASEFIELD,
+        n_cols=2,
+        security_level=128
+    )
+    A_BN_254_BASEFIELD_3_COL_128_BITS = AnemoiPermutation(
+        q=BN_254_BASEFIELD,
+        n_cols=3,
+        security_level=128
+    )
     A_BN_254_BASEFIELD_4_COL_128_BITS = AnemoiPermutation(
         q=BN_254_BASEFIELD,
         n_cols=4,
@@ -809,6 +859,16 @@ if __name__ == "__main__":
         n_cols=1,
         security_level=128
     )
+    A_BN_254_SCALARFIELD_2_COL_128_BITS = AnemoiPermutation(
+        q=BN_254_SCALARFIELD,
+        n_cols=2,
+        security_level=128
+    )
+    A_BN_254_SCALARFIELD_3_COL_128_BITS = AnemoiPermutation(
+        q=BN_254_SCALARFIELD,
+        n_cols=3,
+        security_level=128
+    )
     A_BN_254_SCALARFIELD_4_COL_128_BITS = AnemoiPermutation(
         q=BN_254_SCALARFIELD,
         n_cols=4,
@@ -819,10 +879,20 @@ if __name__ == "__main__":
         mat=CIRCULANT_FP6_MDS_MATRIX,
         n_cols=6,
         security_level=128)
-    
+
     A_PALLAS_BASEFIELD_1_COL_128_BITS = AnemoiPermutation(
         q=PALLAS_BASEFIELD,
         n_cols=1,
+        security_level=128
+    )
+    A_PALLAS_BASEFIELD_2_COL_128_BITS = AnemoiPermutation(
+        q=PALLAS_BASEFIELD,
+        n_cols=2,
+        security_level=128
+    )
+    A_PALLAS_BASEFIELD_3_COL_128_BITS = AnemoiPermutation(
+        q=PALLAS_BASEFIELD,
+        n_cols=3,
         security_level=128
     )
     A_PALLAS_BASEFIELD_4_COL_128_BITS = AnemoiPermutation(
@@ -835,10 +905,20 @@ if __name__ == "__main__":
         mat=CIRCULANT_FP6_MDS_MATRIX,
         n_cols=6,
         security_level=128)
-    
+
     A_VESTA_BASEFIELD_1_COL_128_BITS = AnemoiPermutation(
         q=VESTA_BASEFIELD,
         n_cols=1,
+        security_level=128
+    )
+    A_VESTA_BASEFIELD_2_COL_128_BITS = AnemoiPermutation(
+        q=VESTA_BASEFIELD,
+        n_cols=2,
+        security_level=128
+    )
+    A_VESTA_BASEFIELD_3_COL_128_BITS = AnemoiPermutation(
+        q=VESTA_BASEFIELD,
+        n_cols=3,
         security_level=128
     )
     A_VESTA_BASEFIELD_4_COL_128_BITS = AnemoiPermutation(
@@ -855,6 +935,16 @@ if __name__ == "__main__":
     A_GOLDILOCKS_64_FIELD_1_COL_128_BITS = AnemoiPermutation(
         q=GOLDILOCKS_64_FIELD,
         n_cols=1,
+        security_level=128
+    )
+    A_GOLDILOCKS_64_FIELD_2_COL_128_BITS = AnemoiPermutation(
+        q=GOLDILOCKS_64_FIELD,
+        n_cols=2,
+        security_level=128
+    )
+    A_GOLDILOCKS_64_FIELD_3_COL_128_BITS = AnemoiPermutation(
+        q=GOLDILOCKS_64_FIELD,
+        n_cols=3,
         security_level=128
     )
     A_GOLDILOCKS_64_FIELD_4_COL_128_BITS = AnemoiPermutation(
@@ -876,6 +966,16 @@ if __name__ == "__main__":
         n_cols=1,
         security_level=256
     )
+    A_BLS_12_381_BASEFIELD_2_COL_256_BITS = AnemoiPermutation(
+        q=BLS12_381_BASEFIELD,
+        n_cols=2,
+        security_level=256
+    )
+    A_BLS_12_381_BASEFIELD_3_COL_256_BITS = AnemoiPermutation(
+        q=BLS12_381_BASEFIELD,
+        n_cols=3,
+        security_level=256
+    )
     A_BLS_12_381_BASEFIELD_4_COL_256_BITS = AnemoiPermutation(
         q=BLS12_381_BASEFIELD,
         n_cols=4,
@@ -890,6 +990,16 @@ if __name__ == "__main__":
     A_JUBJUB_BASEFIELD_1_COL_256_BITS = AnemoiPermutation(
         q=BLS12_381_SCALARFIELD,
         n_cols=1,
+        security_level=256
+    )
+    A_JUBJUB_BASEFIELD_2_COL_256_BITS = AnemoiPermutation(
+        q=BLS12_381_SCALARFIELD,
+        n_cols=2,
+        security_level=256
+    )
+    A_JUBJUB_BASEFIELD_3_COL_256_BITS = AnemoiPermutation(
+        q=BLS12_381_SCALARFIELD,
+        n_cols=3,
         security_level=256
     )
     A_JUBJUB_BASEFIELD_4_COL_256_BITS = AnemoiPermutation(
@@ -908,6 +1018,16 @@ if __name__ == "__main__":
         n_cols=1,
         security_level=256
     )
+    A_BLS_12_377_BASEFIELD_2_COL_256_BITS = AnemoiPermutation(
+        q=BLS12_377_BASEFIELD,
+        n_cols=2,
+        security_level=256
+    )
+    A_BLS_12_377_BASEFIELD_3_COL_256_BITS = AnemoiPermutation(
+        q=BLS12_377_BASEFIELD,
+        n_cols=3,
+        security_level=256
+    )
     A_BLS_12_377_BASEFIELD_4_COL_256_BITS = AnemoiPermutation(
         q=BLS12_377_BASEFIELD,
         n_cols=4,
@@ -922,6 +1042,16 @@ if __name__ == "__main__":
     A_ED_ON_BLS_12_377_BASEFIELD_1_COL_256_BITS = AnemoiPermutation(
         q=BLS12_377_SCALARFIELD,
         n_cols=1,
+        security_level=256
+    )
+    A_ED_ON_BLS_12_377_BASEFIELD_2_COL_256_BITS = AnemoiPermutation(
+        q=BLS12_377_SCALARFIELD,
+        n_cols=2,
+        security_level=256
+    )
+    A_ED_ON_BLS_12_377_BASEFIELD_3_COL_256_BITS = AnemoiPermutation(
+        q=BLS12_377_SCALARFIELD,
+        n_cols=3,
         security_level=256
     )
     A_ED_ON_BLS_12_377_BASEFIELD_4_COL_256_BITS = AnemoiPermutation(
@@ -940,6 +1070,16 @@ if __name__ == "__main__":
         n_cols=1,
         security_level=256
     )
+    A_BN_254_BASEFIELD_2_COL_256_BITS = AnemoiPermutation(
+        q=BN_254_BASEFIELD,
+        n_cols=2,
+        security_level=256
+    )
+    A_BN_254_BASEFIELD_3_COL_256_BITS = AnemoiPermutation(
+        q=BN_254_BASEFIELD,
+        n_cols=3,
+        security_level=256
+    )
     A_BN_254_BASEFIELD_4_COL_256_BITS = AnemoiPermutation(
         q=BN_254_BASEFIELD,
         n_cols=4,
@@ -956,6 +1096,16 @@ if __name__ == "__main__":
         n_cols=1,
         security_level=256
     )
+    A_BN_254_SCALARFIELD_2_COL_256_BITS = AnemoiPermutation(
+        q=BN_254_SCALARFIELD,
+        n_cols=2,
+        security_level=256
+    )
+    A_BN_254_SCALARFIELD_3_COL_256_BITS = AnemoiPermutation(
+        q=BN_254_SCALARFIELD,
+        n_cols=3,
+        security_level=256
+    )
     A_BN_254_SCALARFIELD_4_COL_256_BITS = AnemoiPermutation(
         q=BN_254_SCALARFIELD,
         n_cols=4,
@@ -966,10 +1116,20 @@ if __name__ == "__main__":
         mat=CIRCULANT_FP6_MDS_MATRIX,
         n_cols=6,
         security_level=256)
-    
+
     A_PALLAS_BASEFIELD_1_COL_256_BITS = AnemoiPermutation(
         q=PALLAS_BASEFIELD,
         n_cols=1,
+        security_level=256
+    )
+    A_PALLAS_BASEFIELD_2_COL_256_BITS = AnemoiPermutation(
+        q=PALLAS_BASEFIELD,
+        n_cols=2,
+        security_level=256
+    )
+    A_PALLAS_BASEFIELD_3_COL_256_BITS = AnemoiPermutation(
+        q=PALLAS_BASEFIELD,
+        n_cols=3,
         security_level=256
     )
     A_PALLAS_BASEFIELD_4_COL_256_BITS = AnemoiPermutation(
@@ -982,10 +1142,20 @@ if __name__ == "__main__":
         mat=CIRCULANT_FP6_MDS_MATRIX,
         n_cols=6,
         security_level=256)
-    
+
     A_VESTA_BASEFIELD_1_COL_256_BITS = AnemoiPermutation(
         q=VESTA_BASEFIELD,
         n_cols=1,
+        security_level=256
+    )
+    A_VESTA_BASEFIELD_2_COL_256_BITS = AnemoiPermutation(
+        q=VESTA_BASEFIELD,
+        n_cols=2,
+        security_level=256
+    )
+    A_VESTA_BASEFIELD_3_COL_256_BITS = AnemoiPermutation(
+        q=VESTA_BASEFIELD,
+        n_cols=3,
         security_level=256
     )
     A_VESTA_BASEFIELD_4_COL_256_BITS = AnemoiPermutation(
@@ -1004,6 +1174,16 @@ if __name__ == "__main__":
         n_cols=1,
         security_level=256
     )
+    A_GOLDILOCKS_64_FIELD_2_COL_256_BITS = AnemoiPermutation(
+        q=GOLDILOCKS_64_FIELD,
+        n_cols=2,
+        security_level=256
+    )
+    A_GOLDILOCKS_64_FIELD_3_COL_256_BITS = AnemoiPermutation(
+        q=GOLDILOCKS_64_FIELD,
+        n_cols=3,
+        security_level=256
+    )
     A_GOLDILOCKS_64_FIELD_4_COL_256_BITS = AnemoiPermutation(
         q=GOLDILOCKS_64_FIELD,
         n_cols=4,
@@ -1013,5 +1193,4 @@ if __name__ == "__main__":
         q=GOLDILOCKS_64_FIELD,
         mat=CIRCULANT_FP6_MDS_MATRIX,
         n_cols=6,
-        security_level=256
-    )
+        security_level=256)
