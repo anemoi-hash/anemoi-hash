@@ -25,7 +25,7 @@ The two functions ```jive``` and ```sponge_hash``` are routines to evaluate **An
 - [Pierre Briaud](https://who.rocq.inria.fr/Pierre.Briaud/), Sorbonne University, France - Inria, France
 - Pyrros Chaidos, National & Kapodistrian University of Athens, Greece,
 - [Léo Perrin](https://who.paris.inria.fr/Leo.Perrin/), Inria, France
-- Robin Salen, Toposware, Inc., US
+- [Robin Salen](https://twitter.com/RobinSalen), Toposware, Inc., USA
 - Vesselin Velichkov, University of Edinburgh, Scotland - Clearmatics, England
 - Danny Willems, Nomadic Labs, France - Inria & LIX, France
 
