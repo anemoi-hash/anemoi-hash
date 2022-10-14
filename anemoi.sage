@@ -71,13 +71,18 @@ def is_mds(m):
     return True
 
 def M_2(x_input, b):
+    """Fast matrix-vector multiplication algorithm for Anemoi MDS layer with \ell = 1,2."""
+
     x = x_input[:]
     x[0] += b*x[1]
     x[1] += b*x[0]
     return x
 
 def M_3(x_input, b):
-    """Figure 6 of [DL18](https://tosc.iacr.org/index.php/ToSC/article/view/888)."""
+    """Fast matrix-vector multiplication algorithm for Anemoi MDS layer with \ell = 3.
+
+    From Figure 6 of [DL18](https://tosc.iacr.org/index.php/ToSC/article/view/888)."""
+
     x = x_input[:]
     t = x[0] + b*x[2]
     x[2] += x[1]
@@ -88,7 +93,10 @@ def M_3(x_input, b):
 
 
 def M_4(x_input, b):
-    """Figure 8 of [DL18](https://tosc.iacr.org/index.php/ToSC/article/view/888)."""
+    """Fast matrix-vector multiplication algorithm for Anemoi MDS layer with \ell = 4.
+
+    Figure 8 of [DL18](https://tosc.iacr.org/index.php/ToSC/article/view/888)."""
+
     x = x_input[:]
     x[0] += x[1]
     x[2] += x[3]
@@ -132,7 +140,9 @@ def get_mds(field, l):
                     mat.append(M_3(x_i, b))
                 elif l == 4:
                     mat.append(M_4(x_i, b))
-            mat = Matrix(field, l, l, mat)
+            # Because the matrix has been generated through the matrix-vector
+            # algorithm with unit vectors, we need to transpose the result.
+            mat = Matrix(field, l, l, mat).transpose()
             if is_mds(mat):
                 return mat
         # If l > 4, we default to a circulant matrix with small coefficients
