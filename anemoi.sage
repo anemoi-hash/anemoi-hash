@@ -77,7 +77,7 @@ def M_2(x_input, b):
     return x
 
 def M_3(x_input, b):
-    """Figure 6 of [DL18]."""
+    """Figure 6 of [DL18](https://tosc.iacr.org/index.php/ToSC/article/view/888)."""
     x = x_input[:]
     t = x[0] + b*x[2]
     x[2] += x[1]
@@ -88,7 +88,7 @@ def M_3(x_input, b):
 
 
 def M_4(x_input, b):
-    """Figure 8 of [DL18]."""
+    """Figure 8 of [DL18](https://tosc.iacr.org/index.php/ToSC/article/view/888)."""
     x = x_input[:]
     x[0] += x[1]
     x[2] += x[3]
