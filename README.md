@@ -33,7 +33,7 @@ The two functions ```jive``` and ```sponge_hash``` are routines to evaluate **An
 
 Here are some Git repositories with **Anemoi** implementations:
 
-- Anemoi/Griffin/Rescue-Prime/Poseidon C implementation: <https://gitlab.com/dannywillems/ocaml-bls12-381-hash>
+- Anemoi/Griffin/Rescue-Prime/Poseidon C implementation: <https://gitlab.com/nomadic-labs/cryptography/ocaml-bls12-381-hash>
 - PlonK implementation of Anemoi/Griffin/Poseidon: <https://gitlab.com/nomadic-labs/cryptography/privacy-team>
 - Native Rust implementation of Anemoi for various instantiations over commonly used fields: <https://github.com/Nashtare/anemoi>
 - Native Rust implementation of Anemoi/Rescue-Prime/Griffin over the 64-bit "Goldilocks" field: <https://github.com/toposware/hash/tree/griffin>
