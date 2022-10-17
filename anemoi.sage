@@ -417,7 +417,10 @@ def jive(P, b, _x):
     if P.input_size() % b != 0:
         raise Exception("b must divide the input size!")
     c = P.input_size()/b # length of the compressed output
-    if c * P.F.cardinality().nbits() < 2 * P.security_level:
+    # Output size check: we allow the output size to be 3 bits shorter than
+    # the theoretical target, as commonly used finite fields usually have a
+    # characteristic size slightly under 2**256.
+    if c * P.F.cardinality().nbits() < 2 * P.security_level - 3:
         raise Exception(f"digest size is too small for the targeted security level!")
     x = _x[:]
     u = P(x)
