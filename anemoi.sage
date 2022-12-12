@@ -774,7 +774,52 @@ def generate_test_vectors_mds(P, n):
     return (inputs, outputs)
 
 
-if __name__ == "__main__":
+# VV        
+def test_permutation():
+    n_rounds=None
+    # Base field modulus [https://eips.ethereum.org/EIPS/eip-2537]
+    #    q=0x1A0111EA397FE69A4B1BA7B6434BACD764774B84F38512BF6730D2A0F6B0F6241EABFFFEB153FFFFB9FEFFFFFFFFAAAB # BLS12-381 prime
+    # Main subgroup order [https://eips.ethereum.org/EIPS/eip-2537] = scalar field modulus (?)
+    q=0x73eda753299d7d483339d80809a1d80553bda402fffe5bfeffffffff00000001
+    print("q {}".format(hex(q)))
+    g = GF(q).multiplicative_generator()
+    print("multiplicative_generator g {}".format(g))
+    alpha=5
+    n_cols=1
+    security_level=128    
+    P = AnemoiPermutation(q=q, alpha=alpha, n_rounds=n_rounds, n_cols=n_cols, security_level=security_level)
+    print(P)
+    internal_state = [0] * P.input_size()
+    internal_state = P(internal_state)
+    if n_cols == 1:
+        mat = get_mds(P.F, 2)  # a linear layer is needed to mix the column
+    else:
+        mat = get_mds(P.F, n_cols)
+    print(mat.str())
+    x = 22
+    y = P.evaluate_E(x)    
+    print("x {} y {}".format(x, y))
+#    x,y = P.evaluate_sbox(55, 3)
+#    print("x {} y {}".format(x, y))
+
+def test_inverse(q):
+    alpha = 5
+    alpha_inv = inverse_mod(alpha, q-1)
+    alpha_inv_q = inverse_mod(alpha, q)
+    add = (alpha * alpha_inv) % (q-1)
+    print("q         {}".format(q))
+    print("hex(q)    {}".format(hex(q)))
+    print("a         {}".format(alpha))
+    print("a_inv     {}".format(alpha_inv))
+    print("a * a_inv {}".format(add))
+    print("a_inv_q   {}".format(alpha_inv_q))
+    x = 22
+#    y = x**alpha_inv
+#    print("x {}".format(x))
+#    print("y {}".format(y))
+   
+# if __name__ == "__main__":
+def generate_parameters_all_curves(q):
 
     # This is the first circulant matrix being found by the circulant_mds_matrix()
     # script above. This is hardcoded to save some time when instantiating the different
@@ -1280,3 +1325,37 @@ if __name__ == "__main__":
         mat=CIRCULANT_FP6_MDS_MATRIX,
         n_cols=6,
         security_level=256)
+
+if __name__ == "__main__":
+    # check_polynomial_verification(
+    #     n_tests=10,
+    #     q=509,
+    #     alpha=3,
+    #     n_rounds=5,
+    #     n_cols=3)
+
+    # test_jive(
+    #     n_tests=10,
+    #     q=509,
+    #     alpha=3,
+    #     n_rounds=5,
+    #     n_cols=2,
+    #     b=4)
+    
+    #test_sponge(
+    #    n_tests=10,
+    #    q=0x1A0111EA397FE69A4B1BA7B6434BACD764774B84F38512BF6730D2A0F6B0F6241EABFFFEB153FFFFB9FEFFFFFFFFAAAB, # BLS12-381 prime
+    #    alpha=5,
+    #    n_cols=2,
+    #    b=4,
+    #    security_level=256)    
+
+    # for l in range(1, 5):
+    #     print([get_n_rounds(256, l, alpha) for alpha in [3, 5, 7, 11, 13, 17]])
+    
+    test_permutation()
+    
+#    q=0x1A0111EA397FE69A4B1BA7B6434BACD764774B84F38512BF6730D2A0F6B0F6241EABFFFEB153FFFFB9FEFFFFFFFFAAAB
+    q=0x73eda753299d7d483339d80809a1d80553bda402fffe5bfeffffffff00000001
+    test_inverse(q)
+    
