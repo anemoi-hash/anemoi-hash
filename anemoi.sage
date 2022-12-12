@@ -356,6 +356,27 @@ class AnemoiPermutation:
         result.append([x[:], y[:]])
         return result
 
+    def eval_round_with_intermediate_values(self, _x, _y):
+        """Returns the intermediate values after constant addition, matrix
+        multiplication and S-box within a single round of the Anemoi
+        permutation
+
+        """
+        x, y = _x[:], _y[:]
+        result = [[x[:], y[:]]]
+        for r in range(0, self.n_rounds):
+            print("round [{}] input            {}{}".format(r, x, y))
+            for i in range(0, self.n_cols):
+                x[i] += 0#self.C[r][i] #vpv
+                y[i] += 0#self.D[r][i]
+            print("round [{}] after ConstAadd  {}{}".format(r, x, y))
+            x, y = self.linear_layer(x, y)
+            print("round [{}] after MatrixMult {}{}".format(r, x, y))
+            for i in range(0, self.n_cols):
+                x[i], y[i] = self.evaluate_sbox(x[i], y[i])
+            print("round [{}] after ApplySbox  {}{}".format(r, x, y))
+            result.append([x[:], y[:]])
+        return result
 
     def input_size(self):
         return 2*self.n_cols
@@ -774,50 +795,6 @@ def generate_test_vectors_mds(P, n):
     return (inputs, outputs)
 
 
-# VV        
-def test_permutation():
-    n_rounds=None
-    # Base field modulus [https://eips.ethereum.org/EIPS/eip-2537]
-    #    q=0x1A0111EA397FE69A4B1BA7B6434BACD764774B84F38512BF6730D2A0F6B0F6241EABFFFEB153FFFFB9FEFFFFFFFFAAAB # BLS12-381 prime
-    # Main subgroup order [https://eips.ethereum.org/EIPS/eip-2537] = scalar field modulus (?)
-    q=0x73eda753299d7d483339d80809a1d80553bda402fffe5bfeffffffff00000001
-    print("q {}".format(hex(q)))
-    g = GF(q).multiplicative_generator()
-    print("multiplicative_generator g {}".format(g))
-    alpha=5
-    n_cols=1
-    security_level=128    
-    P = AnemoiPermutation(q=q, alpha=alpha, n_rounds=n_rounds, n_cols=n_cols, security_level=security_level)
-    print(P)
-    internal_state = [0] * P.input_size()
-    internal_state = P(internal_state)
-    if n_cols == 1:
-        mat = get_mds(P.F, 2)  # a linear layer is needed to mix the column
-    else:
-        mat = get_mds(P.F, n_cols)
-    print(mat.str())
-    x = 22
-    y = P.evaluate_E(x)    
-    print("x {} y {}".format(x, y))
-#    x,y = P.evaluate_sbox(55, 3)
-#    print("x {} y {}".format(x, y))
-
-def test_inverse(q):
-    alpha = 5
-    alpha_inv = inverse_mod(alpha, q-1)
-    alpha_inv_q = inverse_mod(alpha, q)
-    add = (alpha * alpha_inv) % (q-1)
-    print("q         {}".format(q))
-    print("hex(q)    {}".format(hex(q)))
-    print("a         {}".format(alpha))
-    print("a_inv     {}".format(alpha_inv))
-    print("a * a_inv {}".format(add))
-    print("a_inv_q   {}".format(alpha_inv_q))
-    x = 22
-#    y = x**alpha_inv
-#    print("x {}".format(x))
-#    print("y {}".format(y))
-   
 # if __name__ == "__main__":
 def generate_parameters_all_curves(q):
 
@@ -1326,6 +1303,50 @@ def generate_parameters_all_curves(q):
         n_cols=6,
         security_level=256)
 
+# VV        
+def test_permutation():
+    n_rounds=None
+    # Base field modulus [https://eips.ethereum.org/EIPS/eip-2537]
+    #    q=0x1A0111EA397FE69A4B1BA7B6434BACD764774B84F38512BF6730D2A0F6B0F6241EABFFFEB153FFFFB9FEFFFFFFFFAAAB # BLS12-381 prime
+    # Main subgroup order [https://eips.ethereum.org/EIPS/eip-2537] = scalar field modulus (?)
+    q=0x73eda753299d7d483339d80809a1d80553bda402fffe5bfeffffffff00000001
+    print("q {}".format(hex(q)))
+    g = GF(q).multiplicative_generator()
+    print("multiplicative_generator g {}".format(g))
+    alpha=5
+    n_cols=2
+    security_level=128
+    n_rounds=1
+    P = AnemoiPermutation(q=q, alpha=alpha, n_rounds=n_rounds, n_cols=n_cols, security_level=security_level)
+    print(P)
+    internal_state = [0] * P.input_size()
+    print("internal_state {}".format(internal_state))
+    
+    internal_state = P(internal_state)
+    if n_cols == 1:
+        mat = get_mds(P.F, 2)  # a linear layer is needed to mix the column
+    else:
+        mat = get_mds(P.F, n_cols)
+    #print(mat.str())
+    res = P.eval_round_with_intermediate_values([0,1], [2,3])
+    print("res {}".format(res))
+    
+def test_inverse(q):
+    alpha = 5
+    alpha_inv = inverse_mod(alpha, q-1)
+    alpha_inv_q = inverse_mod(alpha, q)
+    add = (alpha * alpha_inv) % (q-1)
+    print("q         {}".format(q))
+    print("hex(q)    {}".format(hex(q)))
+    print("a         {}".format(alpha))
+    print("a_inv     {}".format(alpha_inv))
+    print("a * a_inv {}".format(add))
+    print("a_inv_q   {}".format(alpha_inv_q))
+    x = 22
+    y = x**alpha_inv
+    print("x {}".format(x))
+    print("y {}".format(y))
+   
 if __name__ == "__main__":
     # check_polynomial_verification(
     #     n_tests=10,
@@ -1356,6 +1377,6 @@ if __name__ == "__main__":
     test_permutation()
     
 #    q=0x1A0111EA397FE69A4B1BA7B6434BACD764774B84F38512BF6730D2A0F6B0F6241EABFFFEB153FFFFB9FEFFFFFFFFAAAB
-    q=0x73eda753299d7d483339d80809a1d80553bda402fffe5bfeffffffff00000001
-    test_inverse(q)
+#    q=0x73eda753299d7d483339d80809a1d80553bda402fffe5bfeffffffff00000001
+#    test_inverse(q)
     
