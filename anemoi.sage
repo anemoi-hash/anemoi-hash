@@ -314,13 +314,25 @@ class AnemoiPermutation:
     def evaluate_sbox(self, _x, _y):
         """Applies an open Flystel to the full state. """
         x, y = _x, _y
+        print("Sbox input x y {} {}".format(x, y))
+        print("Sbox QUAD {} beta {}".format(self.QUAD, self.beta))
+        print("Sbox delta     {}".format(self.delta))
+        print("Sbox alpha_inv {}".format(self.alpha_inv))
+        print("Sbox Q_gamma  input {}".format(y))
+        print("Sbox Q_gamma output {}".format(self.beta*y**self.QUAD))
         x -= self.beta*y**self.QUAD
+        print("Sbox E        input {}".format(x))
+        print("Sbox E       output {}".format(x**self.alpha_inv))
         y -= x**self.alpha_inv
+        print("Sbox Q_delta  input {}".format(y))
+        print("Sbox Q_delta output {}".format(self.beta*y**self.QUAD + self.delta))
         x += self.beta*y**self.QUAD + self.delta
+        print("Sbox output x y {} {}".format(x, y))
         return x, y
 
     def linear_layer(self, _x, _y):
         x, y = _x[:], _y[:]
+        # print("x y {}{}".format(x, y))        
         if self.n_cols == 1:
             r = self.mat*vector([x[0], y[0]])
             return [r[0]], [r[1]]
@@ -1314,7 +1326,7 @@ def test_permutation():
     g = GF(q).multiplicative_generator()
     print("multiplicative_generator g {}".format(g))
     alpha=5
-    n_cols=2
+    n_cols=4
     security_level=128
     n_rounds=1
     P = AnemoiPermutation(q=q, alpha=alpha, n_rounds=n_rounds, n_cols=n_cols, security_level=security_level)
@@ -1327,8 +1339,16 @@ def test_permutation():
         mat = get_mds(P.F, 2)  # a linear layer is needed to mix the column
     else:
         mat = get_mds(P.F, n_cols)
-    #print(mat.str())
-    res = P.eval_round_with_intermediate_values([0,1], [2,3])
+    print(mat.str())
+    res = 0
+    if n_cols == 1:
+        res = P.eval_round_with_intermediate_values([0], [1])
+    if n_cols == 2:
+        res = P.eval_round_with_intermediate_values([0,1], [2,3])
+    if n_cols == 3:
+        res = P.eval_round_with_intermediate_values([0,1,2], [3,4,5])
+    if n_cols == 4:
+        res = P.eval_round_with_intermediate_values([0,1,2,3], [4,5,6,7])
     print("res {}".format(res))
     
 def test_inverse(q):
