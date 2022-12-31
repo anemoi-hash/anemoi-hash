@@ -116,11 +116,17 @@ def lfsr(x_input, b):
         x = x[1:] + [t]
     return x
 
-def circulant_mds_matrix(field, l):
-    for v in itertools.combinations_with_replacement(range(0,l+2), l):
+def circulant_mds_matrix(field, l, coeff_upper_limit=None):
+    if coeff_upper_limit == None:
+        coeff_upper_limit = l+1
+    assert(coeff_upper_limit > l)
+    for v in itertools.combinations_with_replacement(range(1,coeff_upper_limit), l):
         mat = matrix.circulant(list(v)).change_ring(field)
         if is_mds(mat):
             return(mat)
+    # In some cases, the method won't return any valid matrix,
+    # hence the need to increase the limit further.
+    return circulant_mds_matrix(field, l, coeff_upper_limit+1)
 
 def get_mds(field, l):
     a = field.multiplicative_generator()
