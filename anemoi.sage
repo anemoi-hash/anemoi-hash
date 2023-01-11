@@ -1326,9 +1326,9 @@ def test_permutation():
     g = GF(q).multiplicative_generator()
     print("multiplicative_generator g {}".format(g))
     alpha=5
-    n_cols=4
+    n_cols=1
     security_level=128
-    n_rounds=1
+    n_rounds=2
     P = AnemoiPermutation(q=q, alpha=alpha, n_rounds=n_rounds, n_cols=n_cols, security_level=security_level)
     print(P)
     internal_state = [0] * P.input_size()
@@ -1350,6 +1350,12 @@ def test_permutation():
     if n_cols == 4:
         res = P.eval_round_with_intermediate_values([0,1,2,3], [4,5,6,7])
     print("res {}".format(res))
+
+    pi_F_0 = P.to_field(PI_0 % P.q)
+    pi_F_1 = P.to_field(PI_1 % P.q)
+    print("PI_0 {}".format(PI_0))
+    print("pi_F_0 {}".format(pi_F_0))
+    
     
 def test_inverse(q):
     alpha = 5
@@ -1367,7 +1373,8 @@ def test_inverse(q):
     print("x {}".format(x))
     print("y {}".format(y))
    
-if __name__ == "__main__":
+#if __name__ == "__main__":
+def main():
     # check_polynomial_verification(
     #     n_tests=10,
     #     q=509,
