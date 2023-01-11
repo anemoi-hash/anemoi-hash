@@ -86,7 +86,7 @@ def output_parameters():
 # same as output_parameters() but stores parameters to file
 def output_parameters_to_file():
     instances = anemoi_selected_instances()
-    f = open("/tmp/parameters.txt", "w")
+    f = open("parameters.txt", "w")
     e = datetime.datetime.now()
     f.write("This file was automatically generated with SAGE script parameters.sage on %s/%s/%s at %s:%s:%s\n" % (e.day, e.month, e.year, e.hour, e.minute, e.second))
     for i in range(len(instances)):
@@ -113,7 +113,7 @@ def output_parameters_to_file():
         f.write("constants D      :\n{}\n".format(A.D))
 
 def output_constants_in_libsnark_format_to_file(instances):
-    f = open("/tmp/constants.txt", "w")
+    f = open("constants.txt", "w")
     e = datetime.datetime.now()
     f.write("// Automatically generated with SAGE script parameters.sage on %s/%s/%s at %s:%s:%s\n" % (e.day, e.month, e.year, e.hour, e.minute, e.second))
     i_str = ["one", "two", "three", "four", "five", "six"]
@@ -121,12 +121,12 @@ def output_constants_in_libsnark_format_to_file(instances):
         A_str = instances[i][0]
         A = instances[i][1]
         f.write("// C constants for L = {} columns\n".format(i+1))
-        f.write("const std::vector<std::vector<FieldT>> anemoi_parameters<ppT>::C_constants_col_{} = ".format(i_str[i]))
+        f.write("const std::vector<std::vector<BignumT>> anemoi_parameters<ppT>::C_constants_col_{} = ".format(i_str[i]))
         f.write("{\n")
         for iround in range(len(A.C)):
             f.write("{")
             for icol in range(len(A.C[iround])):
-                f.write("FieldT(\"{}\")".format(A.C[iround][icol]))
+                f.write("BignumT(\"{}\")".format(A.C[iround][icol]))
                 if icol < (len(A.C[iround]) - 1):
                     f.write(", ")
             f.write("}")
@@ -134,12 +134,12 @@ def output_constants_in_libsnark_format_to_file(instances):
                 f.write(",\n")
         f.write("\n};\n")
         f.write("// D constants for L = {} columns\n".format(i+1))
-        f.write("const std::vector<std::vector<FieldT>> anemoi_parameters<ppT>::D_constants_col_{} = ".format(i_str[i]))
+        f.write("const std::vector<std::vector<BignumT>> anemoi_parameters<ppT>::D_constants_col_{} = ".format(i_str[i]))
         f.write("{\n")
         for iround in range(len(A.D)):
             f.write("{")
             for icol in range(len(A.D[iround])):
-                f.write("FieldT(\"{}\")".format(A.D[iround][icol]))
+                f.write("BignumT(\"{}\")".format(A.D[iround][icol]))
                 if icol < (len(A.D[iround]) - 1):
                     f.write(", ")
             f.write("}")

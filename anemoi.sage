@@ -379,8 +379,11 @@ class AnemoiPermutation:
         for r in range(0, self.n_rounds):
             print("round [{}] input            {}{}".format(r, x, y))
             for i in range(0, self.n_cols):
-                x[i] += 0#self.C[r][i] #vpv
-                y[i] += 0#self.D[r][i]
+                # set constants to 0 for debug, vpv
+                #x[i] += 0
+                #y[i] += 0
+                x[i] += self.C[r][i]
+                y[i] += self.D[r][i]
             print("round [{}] after ConstAadd  {}{}".format(r, x, y))
             x, y = self.linear_layer(x, y)
             print("round [{}] after MatrixMult {}{}".format(r, x, y))
@@ -1328,7 +1331,7 @@ def test_permutation():
     alpha=5
     n_cols=1
     security_level=128
-    n_rounds=2
+    n_rounds=1
     P = AnemoiPermutation(q=q, alpha=alpha, n_rounds=n_rounds, n_cols=n_cols, security_level=security_level)
     print(P)
     internal_state = [0] * P.input_size()
@@ -1350,6 +1353,14 @@ def test_permutation():
     if n_cols == 4:
         res = P.eval_round_with_intermediate_values([0,1,2,3], [4,5,6,7])
     print("res {}".format(res))
+
+    # print res in libsnark format
+    print("Y_expect_one_round = {")
+    for i in range(len(res[1])):
+        for j in range(len(res[1][i])):
+            print("FieldT(\"{}\"), ".format(res[1][i][j]))
+    print("};");
+        
 
     pi_F_0 = P.to_field(PI_0 % P.q)
     pi_F_1 = P.to_field(PI_1 % P.q)
