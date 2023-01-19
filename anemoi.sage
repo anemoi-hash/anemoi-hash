@@ -1329,7 +1329,7 @@ def test_permutation():
     g = GF(q).multiplicative_generator()
     print("multiplicative_generator g {}".format(g))
     alpha=5
-    n_cols=1
+    n_cols=4
     security_level=128
     n_rounds=1
     P = AnemoiPermutation(q=q, alpha=alpha, n_rounds=n_rounds, n_cols=n_cols, security_level=security_level)
@@ -1384,8 +1384,8 @@ def test_inverse(q):
     print("x {}".format(x))
     print("y {}".format(y))
    
-#if __name__ == "__main__":
-def main():
+if __name__ == "__main__":
+#def main():
     # check_polynomial_verification(
     #     n_tests=10,
     #     q=509,
