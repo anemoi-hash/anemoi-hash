@@ -1384,8 +1384,8 @@ def test_inverse(q):
     print("x {}".format(x))
     print("y {}".format(y))
    
-if __name__ == "__main__":
-#def main():
+#if __name__ == "__main__":
+def main():
     # check_polynomial_verification(
     #     n_tests=10,
     #     q=509,
