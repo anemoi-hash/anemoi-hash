@@ -446,11 +446,15 @@ def sponge_hash(P, r, h, _x):
     x = _x[:]
     if P.input_size() <= r:
         raise Exception("rate must be strictly smaller than state size!")
-    # Digest size check: we allow the digest size to be 3 bits shorter than
-    # the theoretical target, as commonly used finite fields usually have a
-    # characteristic size slightly under 2**256.
+    # Digest size and capacity check: we allow the digest size to be 3 bits
+    # shorter than the theoretical target, as commonly used finite fields
+    # usually have a characteristic size slightly under 2**256.
     if h * P.F.cardinality().nbits() < 2 * P.security_level - 3:
         raise Exception(f"digest size is too small for the targeted security level!")
+    capacity = P.input_size() - r
+    if capacity * P.F.cardinality().nbits() < 2 * P.security_level - 3:
+        raise Exception(f"capacity is too small for the targeted security level!")
+
     # message padding (and domain separator computation)
     if len(x) % r == 0 and len(x) != 0:
         sigma = 1
