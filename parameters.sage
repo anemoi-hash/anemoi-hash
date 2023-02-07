@@ -839,13 +839,43 @@ def test_anemoi_nrounds():
     print("nrounds128 {}".format(nrounds128))
     print("nrounds256 {}".format(nrounds256))
 
+def test_anemoi_internal_values_bls12_381():
+    A = []
+    anemoi256_instances_bls12_381(A)
+    # Same q for all A[0,1,2,3][1]
+    q = A[0][1].q
+    print("q {}".format(hex(q)))
+    for i in range(len(A)):
+    # for i in range(1):
+        Anemoi = A[i][1]
+        name = A[i][0]
+        ncols = Anemoi.n_cols
+        nrounds = Anemoi.n_rounds
+        print("Anemoi {}".format(name))
+        print("ncols {}".format(ncols))
+        print("nrounds {}".format(nrounds))
+        # Hard-code left and right input equal to sequence
+        # 0,1,2,3,4...
+        X_left_input = []
+        X_right_input = []
+        for j in range(ncols):
+            X_left_input.append(j)
+            X_right_input.append(ncols+j)
+        print("X_left_input  {}".format(X_left_input))
+        print("X_right_input {}".format(X_right_input))
+        res = Anemoi.eval_round_with_intermediate_values(X_left_input, X_right_input)
+        print(res[len(res)-1])
+
+
 if __name__ == "__main__":
+    # print Anemoi internal values BLS12_381
+    if 1:
+        test_anemoi_internal_values_bls12_381()
     # extract number of rounds
     if 0:
-        test_anemoi_nrounds()
-        
+        test_anemoi_nrounds()        
     # bls12_381
-    if 1:
+    if 0:
         A = []
         anemoi256_instances_bls12_381(A)
         filename = "parameters_bls12_381.txt"
@@ -855,7 +885,7 @@ if __name__ == "__main__":
         anemoi_constants_in_cpp_format_to_file(A, filename, curve_ppT)
         #anemoi_instances_stdout(A)
     # bls12_377
-    if 1:
+    if 0:
         A = []
         anemoi256_instances_bls12_377(A)
         filename = "parameters_bls12_377.txt"
@@ -864,7 +894,7 @@ if __name__ == "__main__":
         anemoi_parameters_in_cpp_format_to_file(A, filename, curve_ppT, nrounds128, nrounds256)
         anemoi_constants_in_cpp_format_to_file(A, filename, curve_ppT)
     # mnt4
-    if 1:
+    if 0:
         A = []
         anemoi256_instances_mnt4(A)
         filename = "parameters_mnt4.txt"
@@ -873,7 +903,7 @@ if __name__ == "__main__":
         anemoi_parameters_in_cpp_format_to_file(A, filename, curve_ppT, nrounds128, nrounds256)
         anemoi_constants_in_cpp_format_to_file(A, filename, curve_ppT)
     # mnt6
-    if 1:
+    if 0:
         A = []
         anemoi256_instances_mnt6(A)
         filename = "parameters_mnt6.txt"
@@ -882,7 +912,7 @@ if __name__ == "__main__":
         anemoi_parameters_in_cpp_format_to_file(A, filename, curve_ppT, nrounds128, nrounds256)
         anemoi_constants_in_cpp_format_to_file(A, filename, curve_ppT)
     # bw6_761 (WARNING! slow ~10 min.)
-    if 1:
+    if 0:
         A = []
         anemoi256_instances_bw6_761(A)
         filename = "parameters_bw6_761.txt"
@@ -891,7 +921,7 @@ if __name__ == "__main__":
         anemoi_parameters_in_cpp_format_to_file(A, filename, curve_ppT, nrounds128, nrounds256)
         anemoi_constants_in_cpp_format_to_file(A, filename, curve_ppT)
     # bn128
-    if 1:
+    if 0:
         A = []
         anemoi256_instances_bn128(A)
         filename = "parameters_bn128.txt"
@@ -900,7 +930,7 @@ if __name__ == "__main__":
         anemoi_parameters_in_cpp_format_to_file(A, filename, curve_ppT, nrounds128, nrounds256)
         anemoi_constants_in_cpp_format_to_file(A, filename, curve_ppT)
     # alt_bn128
-    if 1:
+    if 0:
         A = []
         anemoi256_instances_alt_bn128(A)
         filename = "parameters_alt_bn128.txt"

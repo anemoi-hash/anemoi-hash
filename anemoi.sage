@@ -377,7 +377,7 @@ class AnemoiPermutation:
         x, y = _x[:], _y[:]
         result = [[x[:], y[:]]]
         for r in range(0, self.n_rounds):
-            print("round [{}] input            {}{}".format(r, x, y))
+            print("--- round [{}] input            {}{}".format(r, x, y))
             for i in range(0, self.n_cols):
                 # set constants to 0 for debug, vpv
                 #x[i] += 0
@@ -391,6 +391,7 @@ class AnemoiPermutation:
                 x[i], y[i] = self.evaluate_sbox(x[i], y[i])
             print("round [{}] after ApplySbox  {}{}".format(r, x, y))
             result.append([x[:], y[:]])
+            print("\n")
         return result
 
     def input_size(self):
