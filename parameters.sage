@@ -5,7 +5,6 @@ from sage.all import *
 import hashlib
 import itertools
 import datetime
-
 from constants import *
 
 load('anemoi.sage')
@@ -845,8 +844,10 @@ def test_anemoi_internal_values_bls12_381():
     # Same q for all A[0,1,2,3][1]
     q = A[0][1].q
     print("q {}".format(hex(q)))
+    outputs = []
+    instance_names = []
     for i in range(len(A)):
-    # for i in range(1):
+    #for i in range(1):
         Anemoi = A[i][1]
         name = A[i][0]
         ncols = Anemoi.n_cols
@@ -864,13 +865,38 @@ def test_anemoi_internal_values_bls12_381():
         print("X_left_input  {}".format(X_left_input))
         print("X_right_input {}".format(X_right_input))
         res = Anemoi.eval_round_with_intermediate_values(X_left_input, X_right_input)
-        print(res[len(res)-1])
+        #print(res[len(res)-1])
+        outputs.append(res[len(res)-1])
+        instance_names.append(name)
+    #for i in range(len(A)):
+    #    print("{} \n{} \n".format(instance_names[i], outputs[i]))
+    return instance_names, outputs
 
-
+def anemoi_outputs_in_cpp_format_to_file(instance_names, outputs, filename, curve_ppT):
+    f = open(filename, "w")
+    e = datetime.datetime.now()
+    f.write("// Output values automatically generated with SAGE script parameters.sage on %s/%s/%s at %s:%s:%s\n\n" % (e.day, e.month, e.year, e.hour, e.minute, e.second))
+    for i in range(len(outputs)):
+        #print("{} \n{} \n".format(instance_names[i], outputs[i]))
+        LEFT = 0
+        RIGHT = 1
+        f.write("// {}\n".format(instance_names[i]))
+        f.write("// Left outputs\n")
+        for j in range(len(outputs[i][LEFT])):
+            f.write("libff::Fr<libff::{}>(\"{}\"),\n".format(curve_ppT, outputs[i][LEFT][j]))
+        f.write("// Right outputs\n")
+        for j in range(len(outputs[i][RIGHT])):
+            f.write("libff::Fr<libff::{}>(\"{}\"),\n".format(curve_ppT, outputs[i][RIGHT][j]))
+        f.write("\n")
+    
 if __name__ == "__main__":
     # print Anemoi internal values BLS12_381
     if 1:
-        test_anemoi_internal_values_bls12_381()
+        instance_names, outputs = test_anemoi_internal_values_bls12_381()
+        filename = "outputs_bls12_381.txt"
+        curve_ppT = "bls12_381_pp"
+        anemoi_outputs_in_cpp_format_to_file(instance_names, outputs, filename, curve_ppT)
+        
     # extract number of rounds
     if 0:
         test_anemoi_nrounds()        
