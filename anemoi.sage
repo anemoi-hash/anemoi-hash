@@ -65,9 +65,45 @@ def get_n_rounds(s, l, alpha):
 # Linear layer generation
 
 def is_mds(m):
-    for i in reversed(range(1, m.ncols()+1)):
-        if (0 in m.minors(i)):
-            return False
+    # Uses the Laplace expansion of the determinant to calculate the (m+1)x(m+1) minors in terms of the mxm minors.
+    # Taken from https://github.com/mir-protocol/hash-constants/blob/master/mds_search.sage.
+
+    # 1-minors are just the elements themselves
+    if any(any(r == 0 for r in row) for row in m):
+        return False
+
+    N = m.nrows()
+    assert m.is_square() and N >= 2
+
+    det_cache = m
+
+    # Calculate all the nxn minors of m:
+    for n in range(2, N+1):
+        new_det_cache = dict()
+        for rows in itertools.combinations(range(N), n):
+            for cols in itertools.combinations(range(N), n):
+                i, *rs = rows
+
+                # Laplace expansion along row i
+                det = 0
+                for j in range(n):
+                    # pick out c = column j; the remaining columns are in cs
+                    c = cols[j]
+                    cs = cols[:j] + cols[j+1:]
+
+                    # Look up the determinant from the previous iteration
+                    # and multiply by -1 if j is odd
+                    cofactor = det_cache[(*rs, *cs)]
+                    if j % 2 == 1:
+                        cofactor = -cofactor
+
+                    # update the determinant with the j-th term
+                    det += m[i, c] * cofactor
+
+                if det == 0:
+                    return False
+                new_det_cache[(*rows, *cols)] = det
+        det_cache = new_det_cache
     return True
 
 def M_2(x_input, b):
@@ -745,6 +781,10 @@ if __name__ == "__main__":
     # versions of Anemoi below.
     CIRCULANT_FP5_MDS_MATRIX = matrix.circulant([1, 1, 3, 4, 5])
     CIRCULANT_FP6_MDS_MATRIX = matrix.circulant([1, 1, 3, 4, 5, 6])
+    CIRCULANT_FP7_MDS_MATRIX = matrix.circulant([1, 2, 3, 5, 5, 6, 7])
+    CIRCULANT_FP8_MDS_MATRIX = matrix.circulant([1, 2, 3, 5, 7, 8, 8, 9])
+    CIRCULANT_FP9_MDS_MATRIX = matrix.circulant([1, 3, 5, 6, 8, 9, 9, 10, 11])
+    CIRCULANT_FP10_MDS_MATRIX = matrix.circulant([1, 2, 5, 6, 8, 11, 11, 12, 13, 14])
 
     # 128-bit security level instantiations
 
