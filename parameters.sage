@@ -840,6 +840,7 @@ def test_anemoi_nrounds():
 
 def test_anemoi_internal_values_bls12_381():
     A = []
+    anemoi128_instances_bls12_381(A)
     anemoi256_instances_bls12_381(A)
     # Same q for all A[0,1,2,3][1]
     q = A[0][1].q
