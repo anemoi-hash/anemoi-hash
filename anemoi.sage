@@ -44,22 +44,31 @@ def get_prime(N):
         result -= 2
     return result
 
-
 def get_n_rounds(s, l, alpha):
     """Returns the number of rounds needed in Anemoi (based on the
     complexity of algebraic attacks).
 
     """
+    
+    kappa = 9
+    if alpha == 3:
+        kappa = 1
+    elif alpha == 5:
+        kappa = 2
+    elif alpha == 7:
+        kappa = 4
+    elif alpha == 9:
+        kappa = 7
+    
     r = 0
     complexity = 0
     while complexity < 2**s:
         r += 1
         complexity = binomial(
-            2*l*r + alpha + 1 + 2*(l*r-2),
+            4*l*r + kappa,
             2*l*r
         )**2
-    r += l+1 # security margin
-    return max(10, r)
+    return max(8, min(5, 1 + l) + 2 + r)
 
 
 # Linear layer generation
