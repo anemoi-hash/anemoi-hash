@@ -52,14 +52,18 @@ def get_n_rounds(s, l, alpha):
     """
     r = 0
     complexity = 0
+    kappa = {3:1, 5:2, 7:4, 9:7, 11:9}
+    assert alpha in kappa
     while complexity < 2**s:
         r += 1
         complexity = binomial(
-            2*l*r + alpha + 1 + 2*(l*r-2),
+            4*l*r + kappa[alpha],
             2*l*r
         )**2
-    r += l+1 # security margin
-    return max(10, r)
+    r += 2 # considering the second model
+    r += min(5,l+1) # security margin
+    
+    return max(8, r)
 
 
 # Linear layer generation
