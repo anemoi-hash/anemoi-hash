@@ -188,7 +188,7 @@ def get_mds(field, l):
                     mat.append(M_3(x_i, b))
                 elif l == 4:
                     mat.append(M_4(x_i, b))
-            mat = Matrix(field, l, l, mat)
+            mat = Matrix(field, l, l, mat).transpose()
             if is_mds(mat):
                 return mat
     else: # circulant matrix case
